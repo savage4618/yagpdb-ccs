@@ -8,7 +8,7 @@
 */}}
 {{/* START CONFIGUREABLE VARIABLES */}}
 
-{{$cooldown := 86400}} {{/* command cooldown in seconds, set to 0 to disable */}}
+{{$cooldown := 86400}} {{/* command cooldown in seconds, set to 0 to disable, defaulted to 24 hours*/}}
 {{$cooldownerrormessage := (print "I am ignoring you until " humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime) ) }} {{/* message that shows when the user is on cooldown */}}
 {{$changenickname := true }} {{/* values are `true` if you want the user's nickname changed, `false` if you want to leave the username alone*/}}
 {{$dadjokealertchannel := <channelID> }} {{/* Channel ID for alerts when this cc is triggered */}}
