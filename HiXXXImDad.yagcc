@@ -6,6 +6,7 @@
     Trigger: REGEX - `(?i)\bi(?:['\x60‘’]?m|\s+am)\s+` 
 
 */}}
+
 {{/* START CONFIGUREABLE VARIABLES */}}
 
 {{$cooldown := 86400}} {{/* command cooldown in seconds, set to 0 to disable, defaulted to 24 hours*/}}
