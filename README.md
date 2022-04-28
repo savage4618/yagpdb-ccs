@@ -7,6 +7,6 @@ This repository includes my public Custom Commands.
   <summary>FUN</summary>
   
   ## Fun commands to torture your community
-  * [Placeholder](placeholderURL)
+  * [Hi XX, I'm YAGPDB.xyz](https://github.com/savage4618/yagpdb-ccs/blob/master/HiXXXImDad.yagcc)
 
  </details>
