@@ -1,0 +1,34 @@
+{{/* 
+
+    Basically this takes the text of a command and sends it to another channel in an embed.
+
+    Trigger: COMMAND -podcast
+
+*/}}
+
+{{/* START CONFIGUREABLE VARIABLES */}}
+
+{{$podcastalertchannel := 917206867124563968 }} {{/* Channel ID for alerts when this cc is triggered */}}
+{{$Upvote := "upvote:524907425531428864"}}
+
+{{/* END CONFIURABLE VARIABLES */}}
+
+{{$col := 16777215}}{{$p := 0}}{{$r := .Member.Roles}}{{range .Guild.Roles}}{{if and (in $r .ID) (.Color) (lt $p .Position)}}{{$p = .Position}}{{$col = .Color}}{{end}}{{end}}
+
+{{with .StrippedMsg}}
+    {{sendMessage $podcastalertchannel
+        (cembed   
+            "title" (print "New Podcast Question")  
+            "description" . 
+            "color" $col
+            "author" (sdict "name" (str $.User) "icon_url" ($.User.AvatarURL "512"))
+            "timestamp" currentTime
+        )
+    }}
+    {{addReactions $Upvote}}
+{{else}}
+    Insufficient Arguments. Please type a question like `>podcast "this is a question I would like to hear the answer to."`
+    {{ deleteResponse 15 }}
+{{end}}
+
+{{deleteTrigger 15 }}
