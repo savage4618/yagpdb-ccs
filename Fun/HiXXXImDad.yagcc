@@ -15,37 +15,41 @@
 
 {{/* END CONFIURABLE VARIABLES */}}
 
-
-{{if $cd := dbGet .User.ID "cooldown" }}
-    {{/* This branch is where you put code you want to happen DURING the cooldown (e.g. error message) */}}
-        I am ignoring you until {{ humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime) }}
+{{if eq .User.ID .Guild.OwnerID}}
+    {{/* nothing happens if triggered by server owner since YAG can't change owner's nickname */}}
 {{else}}
-    {{dbSetExpire .User.ID "cooldown" "cooldown" $cooldown}}
-    {{/* This branch is where you put code you want to happen when NOT on cooldown (e.g. sendMessage) */}}
-        {{$col := 16777215}}	
-        {{$p := 0}}
-        {{$r := .Member.Roles}}
-        {{range .Guild.Roles}}
-            {{if and (in $r .ID) (.Color) (lt $p .Position)}}
-            {{$p = .Position}}{{$col = .Color}}
-            {{end}}
-        {{end}}    
-    {{sendMessage $dadjokealertchannel
-        (cembed     
-            "description" (print "**DadBot Triggered:**\n**By:**[ " .User.Username "(" .Member.Nick ")" "](https://discord.com/users/" .User.ID ")") 
-            "color" $col
-            "fields" (cslice (sdict "name" "Message location: " "value" (joinStr "" "[#" .Channel.Name "](https://discordapp.com/channels/" .Guild.ID "/" .Channel.ID "/" .Message.ID ")") "inline" false))
-            "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/316315555453730817.png?v=1")
-        )
-    }}
 
-	{{sendMessage nil (print "Hello " .StrippedMsg ", I'm YAGPDB.xyz.")}}
-    {{if $changenickname}}
-        {{if lt (len .StrippedMsg) 32}}
-            {{ editNickname .StrippedMsg }}
-        {{else}}
-            {{$string := slice .StrippedMsg 0 31}}
-            {{editNickname $string }}
+    {{if $cd := dbGet .User.ID "cooldown" }}
+        {{/* This branch is where you put code you want to happen DURING the cooldown (e.g. error message) */}}
+            I am ignoring you until {{ humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime) }}
+    {{else}}
+        {{dbSetExpire .User.ID "cooldown" "cooldown" $cooldown}}
+        {{/* This branch is where you put code you want to happen when NOT on cooldown (e.g. sendMessage) */}}
+            {{$col := 16777215}}	
+            {{$p := 0}}
+            {{$r := .Member.Roles}}
+            {{range .Guild.Roles}}
+                {{if and (in $r .ID) (.Color) (lt $p .Position)}}
+                {{$p = .Position}}{{$col = .Color}}
+                {{end}}
+            {{end}}    
+        {{sendMessage $dadjokealertchannel
+            (cembed     
+                "description" (print "**DadBot Triggered:**\n**By:**[ " .User.Username "(" .Member.Nick ")" "](https://discord.com/users/" .User.ID ")") 
+                "color" $col
+                "fields" (cslice (sdict "name" "Message location: " "value" (joinStr "" "[#" .Channel.Name "](https://discordapp.com/channels/" .Guild.ID "/" .Channel.ID "/" .Message.ID ")") "inline" false))
+                "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/316315555453730817.png?v=1")
+            )
+        }}
+
+        {{sendMessage nil (print "Hello " .StrippedMsg ", I'm YAGPDB.xyz.")}}
+        {{if $changenickname}}
+            {{if lt (len .StrippedMsg) 32}}
+                {{ editNickname .StrippedMsg }}
+            {{else}}
+                {{$string := slice .StrippedMsg 0 31}}
+                {{editNickname $string }}
+            {{end}}
         {{end}}
     {{end}}
 {{end}}
