@@ -1,0 +1,18 @@
+{{/*
+
+    Custom command to link subreddits when a user posts an `r/` message
+
+    Recommended Trigger: "starts with" `r/`
+    
+*/}}
+
+{{
+    sendMessage nil (cembed 
+        "title" "oh, hey, it looks like you tried to link a subreddit"
+        "description" (print "[Here's a clickable link to " .Message.Content "](https://reddit.com/" .Message.Content ")" )
+        "color" 16729344
+        "timestamp" currentTime
+        "footer" (sdict "text" (print "Subreddit linked by: " .User.Username))
+        "thumbnail" (sdict "url" "https://imgur.com/sdO8tAw.png")
+    )
+}}
