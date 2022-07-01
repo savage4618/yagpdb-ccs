@@ -2,14 +2,16 @@
 
     Custom command to link subreddits when a user posts an `r/` message
 
-    Recommended Trigger: regex  `\sr/|\Ar/`
+    Recommended Trigger: regex  `\sr/[a-z]+\s|\Ar/[a-z]+|\br/[a-z]+`
     
 */}}
+
+{{ $subreddit := reFind "r/[a-z]+" .Message.Content }}
 
 {{
     sendMessage nil (cembed 
         "title" "oh, hey, it looks like you tried to link a subreddit"
-        "description" (print "[Here's a clickable link to " .Message.Content "](https://reddit.com/" .Message.Content ")" )
+        "description" (print "[Here's a clickable link to " $subreddit "](https://reddit.com/" $subreddit ")" )
         "color" 16729344
         "timestamp" currentTime
         "footer" (sdict "text" (print "Subreddit linked by: " .User.Username))
