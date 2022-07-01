@@ -2,7 +2,7 @@
 
     Custom command to link subreddits when a user posts an `r/` message
 
-    Recommended Trigger: "starts with" `r/`
+    Recommended Trigger: regex  `\sr/|\Ar/`
     
 */}}
 
