@@ -1,0 +1,19 @@
+{{/*
+
+    Trigger Type: Interval 1h 
+ 
+*/}}
+
+{{$logchannel := 879440737316524042 }}
+
+
+{{$channelName := joinStr "" adjective "-general" }}
+{{try}}
+    {{editChannelName nil $channelName}}
+{{catch}}
+    {{if in .Error "INVALID_COMMUNITY_PROPERTY_NAME"}}
+        {{ sendMessage $logchannel (print "Channel name update failure. Adjective used: " $channelName) }}
+    {{else}}
+        {{ sendMessage $logchannel (print "error changing channel name" .Error) }}
+    {{end}}
+{{end}}
