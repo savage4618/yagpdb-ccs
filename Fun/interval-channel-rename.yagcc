@@ -1,15 +1,24 @@
 {{/*
 
     Trigger Type: Interval 1h 
+
+    $logchannel - channel to send error notifications (bad words in channel list)
+    $sendhistory - set to true if you want a log of every name change
+    $botspam - channel for logging every name change.
  
 */}}
 
-{{$logchannel := 879440737316524042 }}
+{{ $logchannel := 879440737316524042 }}
+{{ $sendhistory := true }}
+{{ $botspam := 975766322573082735 }}
 
 
-{{$channelName := joinStr "" adjective "-general" }}
+{{$channelName := joinStr "" adjective "-offtopic" }}
 {{try}}
     {{editChannelName nil $channelName}}
+        {{ if $sendhistory }}
+            {{sendMessage $botspam (print "Offtopic channel name updated to " $channelName) }}
+        {{ end }}
 {{catch}}
     {{if in .Error "INVALID_COMMUNITY_PROPERTY_NAME"}}
         {{ sendMessage $logchannel (print "Channel name update failure. Adjective used: " $channelName) }}
