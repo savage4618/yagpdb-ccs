@@ -1,20 +1,19 @@
 {{/*
 
-    Custom command to link subreddits when a user posts an `r/` message
+    Custom command to link subreddits when a user posts an `r/` in a message. This command also deletes the link after 30 seconds so it doesn't feel so spammy.
 
-    Recommended Trigger: regex  `\sr/[a-z]+\s|\Ar/[a-z]+|\br/[a-z]+`
+    Recommended Trigger: "REGEX" `\br/\w{1,20}\b`
     
 */}}
 
-{{ $subreddit := reFind "r/[a-z]+" .Message.Content }}
-
+{{ $sub := reFind "\\br/\\w{1,20}\\b" .Message.Content }}
 {{
-    sendMessage nil (cembed 
+    deleteMessage nil (sendMessageRetID nil (cembed 
         "title" "oh, hey, it looks like you tried to link a subreddit"
-        "description" (print "[Here's a clickable link to " $subreddit "](https://reddit.com/" $subreddit ")" )
+        "description" (print "[Here's a clickable link to " $sub "](https://reddit.com/" $sub ")" )
         "color" 16729344
         "timestamp" currentTime
         "footer" (sdict "text" (print "Subreddit linked by: " .User.Username))
         "thumbnail" (sdict "url" "https://imgur.com/sdO8tAw.png")
-    )
+    )) 30
 }}
