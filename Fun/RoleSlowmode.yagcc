@@ -18,7 +18,13 @@
 
 {{if $cd := dbGet .User.ID "cooldown" }}
 	{{ if $sendDM }}
-        {{ sendDM .Message.Content }}
+        {{sendDM
+            (cembed
+                "title" "You have been rate limited. "
+                "description" (print "Here is the message that was rejected: \n**" .Message.Content "**\n You are on cooldown for another " (humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime)) )
+                "color" 13216
+            )
+        }}
     {{ end }}
 	{{ deleteTrigger 0 }}
 {{else}}
