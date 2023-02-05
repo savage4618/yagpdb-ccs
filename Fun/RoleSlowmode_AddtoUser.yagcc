@@ -9,6 +9,8 @@
 {{/* START OF CONFIGUARBLE VALUES */}}
     {{$removetime := 3600 }} {{/* time in seconds */}}
     {{$roleID := 1069083632326676491 }} {{/* roleID to add (should be the same as the RoleSlowmode CC */}}
+    {{$alertstaff := true}}
+    {{$staffchannel := 895021408025989120 }}
     
 {{/* END OF CONFIGURABLE VALUES */}}
 
@@ -16,5 +18,8 @@
         (carg "member" "Member to slow")
 }}
 {{ $Target := $Args.Get 0 }} 
-{{ addRoleID $roleID }}
-{{ removeRoleID $roleID $removetime }}
+{{ giveRoleID $Target.User.ID $roleID }}
+{{ takeRoleID $Target.User.ID $roleID $removetime }}
+{{if $alertstaff}}
+    {{sendMessage $staffchannel (print "cooldown role was added to " $Target.User " and will be automatically removed." )}}
+{{end}}
