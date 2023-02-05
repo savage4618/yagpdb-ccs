@@ -1,0 +1,20 @@
+{{/*
+    Custom Command for adding and automatically removeing ROLE slowmode role
+
+    Trigger: COMMAND `slowrole`
+
+    Author: savage#3730 <https://github.com/savage4618>
+*/}}
+
+{{/* START OF CONFIGUARBLE VALUES */}}
+    {{$removetime := 3600 }} {{/* time in seconds */}}
+    {{$roleID := 1069083632326676491 }} {{/* roleID to add (should be the same as the RoleSlowmode CC */}}
+    
+{{/* END OF CONFIGURABLE VALUES */}}
+
+{{$Args := parseArgs 1 "" 
+        (carg "member" "Member to slow")
+}}
+{{ $Target := $Args.Get 0 }} 
+{{ addRoleID $roleID }}
+{{ removeRoleID $roleID $removetime }}
