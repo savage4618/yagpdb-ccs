@@ -8,7 +8,7 @@
 
 {{/* START OF CONFIGUARBLE VALUES */}}
     {{$removetime := 3600 }} {{/* time in seconds */}}
-    {{$roleID := 1069083632326676491 }} {{/* roleID to add (should be the same as the RoleSlowmode CC */}}
+    {{$roleID := 1069083632326676491 }} {{/* roleID to add (should be the same as the "only run for role" on RoleSlowmode CC */}}
     {{$alertstaff := true}}
     {{$staffchannel := 895021408025989120 }}
     

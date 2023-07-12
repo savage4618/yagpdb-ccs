@@ -1,0 +1,13 @@
+{{ $args := parseArgs 3 "Syntax: `-convert <unitfrom> <unitto> [quantity]`" 
+ (carg "string" "Current allowed units from are miles or km" )
+ (carg "string" "Current allowed units to are miles or km" )
+ (carg "float" "Example 168.4")
+}}
+
+{{ $unitFrom := $args.Get 0 }}
+{{ $unitTo := $args.Get 1 }}
+{{ $qty := $args.Get 2 }}
+
+{{ if $args.IsSet 1 }} 
+    {{ $rep = $args.Get 1 }} 
+{{ end }}
