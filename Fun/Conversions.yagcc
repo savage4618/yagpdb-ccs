@@ -7,7 +7,16 @@
 {{ $unitFrom := $args.Get 0 }}
 {{ $unitTo := $args.Get 1 }}
 {{ $qty := $args.Get 2 }}
+{{ $result := 0.1 }}
 
-{{ if $args.IsSet 1 }} 
-    {{ $rep = $args.Get 1 }} 
+{{ if eq $unitTo $unitFrom }}
+    {{ sendMessage nil (print $unitTo " is the same as " $unitFrom ". Cancelling calculation.")}} 
+{{ else }}
+    {{ if or (eq $unitFrom "m") (eq $unitFrom "miles") }}
+        {{ $result = mult 1.609344 $qty }}
+        {{ sendMessage nil (print $qty $unitFrom " to " $unitTo " is " $result $unitTo ".")}}
+    {{ else }}
+        {{ $result = mult 0.62137 $qty }}
+        {{ sendMessage nil (print $qty $unitFrom " to " $unitTo " is " $result $unitTo "." )}}
+    {{ end }}
 {{ end }}
