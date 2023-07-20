@@ -5,7 +5,7 @@
 
     Trigger: REGEX - `(?i)\bi(?:['\x60‘’]?m|\s+am)\s+` 
 
-    Writen by savage4618 <https://github.com/savage4618>
+    Written by savage4618 <https://github.com/savage4618>
 
 */}}
 
