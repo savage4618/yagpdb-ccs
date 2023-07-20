@@ -5,6 +5,8 @@
     $logchannel - channel to send error notifications (bad words in channel list)
     $sendhistory - set to true if you want a log of every name change
     $botspam - channel for logging every name change.
+
+    Written by savage4618 <https://github.com/savage4618>
  
 */}}
 

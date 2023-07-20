@@ -1,3 +1,11 @@
+{{/*
+    command to convert units from one to anther. Currently only works with Miles to KM or KM to Miles.
+    Trigger Type: Command
+    Trigger: convert
+
+    Written by savage4618 <https://github.com/savage4618>
+*/}}
+
 {{ $args := parseArgs 3 "Syntax: `-convert <unitfrom> <unitto> [quantity]`" 
  (carg "string" "Current allowed units from are miles or km" )
  (carg "string" "Current allowed units to are miles or km" )
