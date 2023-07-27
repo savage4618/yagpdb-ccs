@@ -1,0 +1,26 @@
+{{/*
+    Custom Command for adding and automatically removeing ROLE slowmode role
+
+    Trigger: COMMAND `slowrole`
+    Example usage: `-slowrole @savage4618` 
+
+    Author: savage#3730 <https://github.com/savage4618>
+*/}}
+
+{{/* START OF CONFIGUARBLE VALUES */}}
+    {{$removetime := 3600 }} {{/* time in seconds */}}
+    {{$roleID := RoleIDHere }} {{/* roleID to add (should be the same as the "only run for role" on RoleSlowmode CC */}}
+    {{$alertstaff := true}} {{/* do you want other staff members to be alerted to a user having the slowmode applied to them? */}}
+    {{$staffchannel := StaffOnlyChannelIDHere }} {{/* change to a staff only channel ID*/}}
+    
+{{/* END OF CONFIGURABLE VALUES */}}
+
+{{$Args := parseArgs 1 "" 
+        (carg "member" "Member to slow")
+}}
+{{ $Target := $Args.Get 0 }} 
+{{ giveRoleID $Target.User.ID $roleID }}
+{{ takeRoleID $Target.User.ID $roleID $removetime }}
+{{if $alertstaff}}
+    {{sendMessage $staffchannel (print "cooldown role was added to " $Target.User " and will be automatically removed." )}}
+{{end}}

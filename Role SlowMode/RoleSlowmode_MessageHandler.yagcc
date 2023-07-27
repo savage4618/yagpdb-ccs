@@ -1,0 +1,37 @@
+{{/*
+    Custom command I made to enable a ROLE locked Channel Slowmode. 
+    This custom command triggers on every message a user in a particular role sends, 
+    and after it is triggered the first time, any subsequent messages sent by that user will be automatically deleted. 
+    You can also change $sendDM to `true` to have the message sent back to the user.
+
+    ***Important Note***: Limit this command to only be triggered by the "SlowMode" role.
+
+    Trigger Type: REGEX
+    Trigger:  \A
+
+    Author: savage#3730 <https://github.com/savage4618>
+*/}}
+
+{{/* *** START OF CONFIGUARBLE VALUES *** */}}
+
+    {{$cooldown := 60 }} {{/* how often a user with the slowmode role is allowed to send messages*/}}
+    {{$sendDM := true }} {{/* if `true` sends a DM to the user when they send a message during their cooldown period. `false` will disable this DM */}}
+
+{{/* *** END OF CONFIGURABLE VALUES *** */}}
+
+{{/* ACTUAL CODE, only change if you know what you are doing */}}
+
+{{if $cd := dbGet .User.ID "cooldown" }}
+	{{ if $sendDM }}
+        {{sendDM
+            (cembed
+                "title" "You have been rate limited. "
+                "description" (print "Here is the message that was rejected: \n**" .Message.Content "**\n You are on cooldown for another " (humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime)) )
+                "color" 13216
+            )
+        }}
+    {{ end }}
+	{{ deleteTrigger 0 }}
+{{else}}
+ 	{{dbSetExpire .User.ID "cooldown" "cooldown" $cooldown}}
+{{end}}
