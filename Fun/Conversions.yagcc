@@ -20,11 +20,13 @@
 {{ if eq $unitTo $unitFrom }}
     {{ sendMessage nil (print $unitTo " is the same as " $unitFrom ". Cancelling calculation.")}} 
 {{ else }}
-    {{ if or (eq $unitFrom "m") (eq $unitFrom "miles") }}
+    {{ if or (eq $unitFrom "m") (eq $unitFrom "miles") (eq $unitFrom "mile") }}
         {{ $result = mult 1.609344 $qty }}
         {{ sendMessage nil (print $qty $unitFrom " to " $unitTo " is " $result $unitTo ".")}}
-    {{ else }}
-        {{ $result = mult 0.62137 $qty }}
-        {{ sendMessage nil (print $qty $unitFrom " to " $unitTo " is " $result $unitTo "." )}}
+        {{ if or (eq $unitFrom "km") (eq $unitFrom "kilometers") (eq $unitFrom "kilometer")}}
+            {{ $result = mult 0.62137 $qty }}
+            {{ sendMessage nil (print $qty $unitFrom " to " $unitTo " is " $result $unitTo "." )}}
+        {{ end }}
+    {{ sendMessage nil (print $unitFrom " must be a valid entry. Current conversions available are only miles to kilometers or kilometers to miles")}}    
     {{ end }}
 {{ end }}
