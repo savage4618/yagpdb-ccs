@@ -1,1 +1,2 @@
-/debug.log
+#ignore debuglog files
+debug.log
