@@ -1,6 +1,7 @@
 {{/*
-    
-
+    Trigger type: Command
+    Command: newmembershoutout
+    ** PLEASE READ THE README, THERE IS MUCH MORE INFORMATION THERE **
 */}}
 
 {{/* configurable variables */}}
@@ -8,9 +9,7 @@
 {{$shoutoutchannel := 783778047274516481}} {{/* set to `nil` if you want it to go to the channel you run the command in}}
 {{/* end of configurable variables*/}}
 
-{{$Args := parseArgs 1 "" 
-        (carg "string" "Welcome message")
-}}
+{{$Args := parseArgs 1 "" (carg "string" "Welcome message")}}
 
 
 {{$newUsers := (dbGet 99 "newusers").Value}}
