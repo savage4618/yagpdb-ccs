@@ -4,7 +4,7 @@
 # YOU probably shouldn't use it yet.
 
 
-`joinmessage.yagcc` adds new users only to db entry. If a user leaves and rejoins, they will not get added a second time. (as I typed this up, I realized there is a leave message action that should remove the existing users, also eliminating duplicates `¯\_(ツ)_/¯`)
+`joinmessage.yagcc` adds new users only to db entry.
 
 `leavemessage.yagcc` removes members that leave from the database.
 
@@ -22,3 +22,5 @@ Once the main CC runs, the database entires are deleted, leaving a clean slate f
 
 ---
 # YOU NEED ALL 3 PIECES OF CODE FOR THIS SYSTEM TO WORK CORRECTLY
+
+Thanks to @shadow21a for all the help.

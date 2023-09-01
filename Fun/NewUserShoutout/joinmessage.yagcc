@@ -1,13 +1,5 @@
 {{/* **************** New user shoutout system start ********************* */}}
 {{$newUsers := or (dbGet 99 "newusers").Value cslice}}
-{{if ge (len $newUsers) 1}}
-    {{range $newUsers}}
-        {{if ne . (str $.User.ID)}}
-            {{$newUsers = $newUsers.Append (str $.User.ID)}}
-        {{end}}
-    {{end}}
-{{else}}
-    {{$newUsers = $newUsers.Append (str .User.ID)}}
-{{end}}
+{{$newUsers.Append (str .User.ID)}}
 {{dbSet 99 "newusers" $newUsers}}
 {{/* **************** New user shoutout system end *********************** */}}
