@@ -1,0 +1,33 @@
+{{/*
+
+    CC to handle kicking of users if they didn't Agree to the rules withing the time period.
+
+    Author: savage4618
+
+*/}}
+{{/* ****** Configurable Variables ****** */}}
+
+{{ $roleID := <roleIDhere> }}
+
+{{/* ****** End Configurable Variables ****** */}}
+
+
+{{if getMember .ExecData.ID}}
+
+    {{if targetHasRoleID .ExecData.ID $roleID }}
+
+        {{sendMessage nil (print .ExecData.Globalname " (" .ExecData.ID ") is a member who agreed to the rules." ) }}
+
+	{{sendMessage nil (cembed (exec "whois" .ExecData.ID))}}
+
+    {{else}}
+
+        {{exec "kick" .ExecData.ID "Did not agree to the rules within 7 days" }}    
+
+    {{end}}
+
+{{else}}
+
+    {{sendMessage nil (print .ExecData.Globalname " (" .ExecData.ID ") already left.")}}
+
+{{end}}

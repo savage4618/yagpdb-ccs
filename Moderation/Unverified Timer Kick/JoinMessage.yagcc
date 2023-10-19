@@ -1,0 +1,14 @@
+{{/* 
+    Join Message part of non-verified member kick. This won't work on very active join server due to ratelimits.
+
+*/}}
+
+{{/* ****** Configurable Variables ****** */}}
+
+{{ $ccID := <ccid of kick handler>}}
+{{ $channelID := <channel id to run kick command> }}
+{{ $time := 604800 }} {{/* time in seconds before executing kick. Default 7 days */}}
+
+{{/* ****** End of Configurable Variables ****** */}}
+
+{{ execCC $ccID $channelID $time .User}}
