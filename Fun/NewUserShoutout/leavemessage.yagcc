@@ -3,7 +3,7 @@
 {{$new := cslice}}
 {{range $newUsers}}
     {{if ne . (str .User.ID)}}
-        {{$new = $new.Append . }}
+        {{$new = $new.Append (str .)}}
     {{end}}
 {{end}}
 {{dbSet 99 "newusers" $new}}
