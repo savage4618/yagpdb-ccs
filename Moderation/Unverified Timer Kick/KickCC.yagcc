@@ -13,21 +13,12 @@
 
 
 {{if getMember .ExecData.ID}}
-
     {{if targetHasRoleID .ExecData.ID $roleID }}
-
         {{sendMessage nil (print .ExecData.Globalname " (" .ExecData.ID ") is a member who agreed to the rules." ) }}
-
 	{{sendMessage nil (cembed (exec "whois" .ExecData.ID))}}
-
     {{else}}
-
         {{exec "kick" .ExecData.ID "Did not agree to the rules within 7 days" }}    
-
     {{end}}
-
 {{else}}
-
     {{sendMessage nil (print .ExecData.Globalname " (" .ExecData.ID ") already left.")}}
-
 {{end}}
