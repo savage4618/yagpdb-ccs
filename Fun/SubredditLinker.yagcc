@@ -16,6 +16,6 @@
         "color" 16729344
         "timestamp" currentTime
         "footer" (sdict "text" (print "Subreddit linked by: " .User.Username))
-        "thumbnail" (sdict "url" "https://randomdad.xyz/reddit-logo.png")
+        "thumbnail" (sdict "url" "https://nc.randomdad.xyz/s/iDkSdXGDfZspprt")
     )) 60
 }}
