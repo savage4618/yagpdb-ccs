@@ -6,7 +6,8 @@
 
 {{/* configurable variables */}}
 {{$message := .StrippedMsg}} {{/* change this if you want a pre-defined message*/}}
-{{$shoutoutchannel := 783778047274516481}} {{/* set to `nil` if you want it to go to the channel you run the command in}}
+{{$shoutoutchannel := 1206402351007662100}} {{/* set to `nil` if you want it to go to the channel you run the command in*/}}
+{{$mentionEveryone := false}}
 {{/* end of configurable variables*/}}
 
 {{$Args := parseArgs 1 "" (carg "string" "Welcome message")}}
@@ -14,5 +15,9 @@
 
 {{$newUsers := (dbGet 99 "newusers").Value}}
 {{$shoutout := print "<@" (joinStr ">, <@" $newUsers) ">"}}
-{{sendMessageNoEscape $shoutoutchannel (print $message " " $shoutout) }}
+{{if $mentionEveryone}}
+    {{sendMessageNoEscape $shoutoutchannel (print mentionEveryone $message " " $shoutout) }}
+{{else}}
+    {{sendMessageNoEscape $shoutoutchannel (print $message " " $shoutout)}}
+{{end}}
 {{dbDel 99 "newusers"}}
