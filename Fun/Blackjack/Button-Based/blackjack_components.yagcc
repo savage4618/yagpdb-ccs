@@ -11,10 +11,7 @@
 */}}
 
 {{$currency := "CREDITS"}}
-
 {{/* Only edit below if you know what you're doing (: rawr */}}
-
-{{/* Initiates variables */}}
 {{$userID := .User.ID}}
 {{$successColor := 0x00ff7b}}
 {{$errorColor := 0xFF0000}}
