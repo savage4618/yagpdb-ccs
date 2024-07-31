@@ -11,4 +11,6 @@
 
 {{/* ****** End of Configurable Variables ****** */}}
 
+{{/* ****** DO NOT EDIT BELOW IF YOU DO NOT KNOW WHAT YOU ARE DOING ****** */}}
+
 {{ execCC $ccID $channelID $time .User}}
