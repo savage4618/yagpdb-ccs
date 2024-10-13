@@ -1,0 +1,48 @@
+{{/* 
+
+	Code to enable users to encode and decode base64 strings without needing to use evalcc
+
+	Created by savage4618
+
+	Trigger Type: Regex
+	Trigger: \A(?:\-|<@!?204255221017214977>)\s*(?:encode|decode)(?: +|\z)
+
+*/}}
+
+{{$lowerCmd := (lower .Cmd) }}
+{{$which := ""}}
+{{$output := ""}}
+{{$input := .StrippedMsg}}
+
+{{with .StrippedMsg}}
+	{{if eq $lowerCmd "-decode"}}
+		{{$which = "decoded"}}
+		{{$output = decodeBase64 $input}}
+
+	{{else if eq $lowerCmd "-encode"}}
+		{{$which = "encoded"}}
+		{{$output = encodeBase64 $input}}
+	{{end}}
+{{else}}
+	Please provide some text for me to encode or decode.
+{{end}}
+
+{{ sendMessage nil (cembed
+		"color" (randInt 0 16777215)
+		"fields" (cslice
+			(sdict
+				"name" "Input"
+				"value" $input
+			)
+			(sdict
+				"name" "Output"
+				"value" $output
+				"inline" false
+			)
+		)
+		"title" (print "Hello, here is your " $which " output:")
+		"footer" (sdict 
+			"text" (print "Base64 Encoding/Decoding Requested by " .User.String))
+		"timestamp" (currentTime)
+	) 
+}}
