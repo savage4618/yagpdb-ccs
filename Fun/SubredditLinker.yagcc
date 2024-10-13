@@ -2,7 +2,7 @@
 
     Custom command to link subreddits when a user posts an `r/` in a message. This command also deletes the link after 30 seconds so it doesn't feel so spammy.
 
-    Recommended Trigger: "REGEX" `\br/\w{1,20}\b`
+    Recommended Trigger: "REGEX" `\sr/\w{1,20}\b|\Ar/\w{1,20}\b`
 
     Written by savage4618 <https://github.com/savage4618>
     
