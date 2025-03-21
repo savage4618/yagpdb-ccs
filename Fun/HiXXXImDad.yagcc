@@ -23,7 +23,7 @@
     {{return}}
 {{end}}
 {{if $cd := dbGet .User.ID "dadjokecooldown" }}
-    {{$mid := sendMessageRetID nil (print "I am ignoring you for another " humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime)) }}
+    {{$mid := sendMessageRetID nil (print "I am ignoring you for another " humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime) )}}
     {{deleteMessage nil $mid 20}}
     {{return}}
 {{end}}
