@@ -35,7 +35,8 @@
 {{$r := .Member.Roles}}
 {{range .Guild.Roles}}
     {{if and (in $r .ID) (.Color) (lt $p .Position)}}
-    {{$p = .Position}}{{$col = .Color}}
+        {{$p = .Position}}{{$col = .Color}}
+    {{end}}
 {{end}}
     
 {{if $senddadjokealerts }}
