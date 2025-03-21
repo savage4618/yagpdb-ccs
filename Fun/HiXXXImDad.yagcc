@@ -11,50 +11,50 @@
 
 {{/* START CONFIGUREABLE VARIABLES */}}
 
-{{$cooldown := 86400}} {{/* command cooldown in seconds, set to 0 to disable, defaulted to 24 hours*/}}
+{{$cooldown := 3600}} {{/* command cooldown in seconds, set to 0 to disable, defaulted to 24 hours*/}}
 {{$changenickname := true }} {{/* values are `true` if you want the user's nickname changed, `false` if you want to leave the username alone*/}}
 {{$senddadjokealerts := true }} {{/* values are `true` if you want trigger alerts, `false` if you don't. Make sure you fill in a channel ID in the next line*/}}
-{{$dadjokealertchannel := <channelID> }} {{/* Channel ID for alerts when this cc is triggered */}}
+{{$dadjokealertchannel := <channelid> }} {{/* Channel ID for alerts when this cc is triggered */}}
 
 {{/* END CONFIURABLE VARIABLES */}}
 
 {{if eq .User.ID .Guild.OwnerID}}
     {{/* nothing happens if triggered by server owner since YAG can't change owner's nickname */}}
-{{else}}
+    {{return}}
+{{end}}
+{{if $cd := dbGet .User.ID "dadjokecooldown" }}
+    {{$mid := sendMessageRetID nil (print "I am ignoring you for another " humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime)) }}
+    {{deleteMessage nil $mid 20}}
+    {{return}}
+{{end}}
 
-    {{if $cd := dbGet .User.ID "cooldown" }}
-        {{/* This branch is where you put code you want to happen DURING the cooldown (e.g. error message) */}}
-            I am ignoring you until {{ humanizeDurationSeconds ($cd.ExpiresAt.Sub currentTime) }}
-    {{else}}
-        {{dbSetExpire .User.ID "cooldown" "cooldown" $cooldown}}
-        {{/* This branch is where you put code you want to happen when NOT on cooldown (e.g. sendMessage) */}}
-            {{$col := 16777215}}	
-            {{$p := 0}}
-            {{$r := .Member.Roles}}
-            {{range .Guild.Roles}}
-                {{if and (in $r .ID) (.Color) (lt $p .Position)}}
-                {{$p = .Position}}{{$col = .Color}}
-                {{end}}
-            {{end}}    
-        {{if $senddadjokealerts }}
-            {{sendMessage $dadjokealertchannel
-                (cembed     
-                    "description" (print "**DadBot Triggered:**\n**By:**[ " .User.Username "(" .Member.Nick ")" "](https://discord.com/users/" .User.ID ")") 
-                    "color" $col
-                    "fields" (cslice (sdict "name" "Message location: " "value" (joinStr "" "[#" .Channel.Name "](https://discordapp.com/channels/" .Guild.ID "/" .Channel.ID "/" .Message.ID ")") "inline" false))
-                    "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/316315555453730817.png?v=1")
-                )
-            }}
-        {{end}}
+{{dbSetExpire .User.ID "dadjokecooldown" "dadjokecooldown" $cooldown}}
+
+{{$col := 16777215}}	
+{{$p := 0}}
+{{$r := .Member.Roles}}
+{{range .Guild.Roles}}
+    {{if and (in $r .ID) (.Color) (lt $p .Position)}}
+    {{$p = .Position}}{{$col = .Color}}
+{{end}}
+    
+{{if $senddadjokealerts }}
+    {{sendMessage $dadjokealertchannel
+        (cembed     
+            "description" (print "**DadBot Triggered:**\n**By:**[ " .User.Username "(" .Member.Nick ")" "](https://discord.com/users/" .User.ID ")") 
+            "color" $col
+            "fields" (cslice (sdict "name" "Message location: " "value" (joinStr "" "[#" .Channel.Name "](https://discordapp.com/channels/" .Guild.ID "/" .Channel.ID "/" .Message.ID ")") "inline" false))
+            "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/316315555453730817.png?v=1")
+        )
+    }}
+{{end}}
         
-        {{sendMessage nil (print "Hello " .StrippedMsg ", I'm YAGPDB.xyz.")}}
-        {{if $changenickname}}
-            {{if lt (len .StrippedMsg) 32}}
-                {{ editNickname .StrippedMsg }}
-            {{else}}
-                {{$string := slice .StrippedMsg 0 31}}
-                {{editNickname $string }}
-            {{end}}
-        {{end}}
+{{sendMessage nil (print "Hello " .StrippedMsg ", I'm RandomDadGPDB.")}}
+{{if $changenickname}}
+    {{if lt (len .StrippedMsg) 32}}
+        {{ editNickname .StrippedMsg }}
+    {{else}}
+        {{$string := slice .StrippedMsg 0 31}}
+        {{editNickname $string }}
     {{end}}
 {{end}}
