@@ -3,7 +3,7 @@
     THE dad joke: when someone says "I'm <something>" this command will respond with "Hi <the thing>, I'm YAGPDB.xyz"
     It then changes the nickname of the triggering user to the first 32 characters of the message.
 
-    Trigger: REGEX - `(?i)\bi(?:['\x60‘’]?m|\s+am)\s+` 
+    Trigger: REGEX - `(?i)\bi(?:['\x60‘’]?m|ma|\s+am)\s+` 
 
     Written by savage4618 <https://github.com/savage4618>
 
