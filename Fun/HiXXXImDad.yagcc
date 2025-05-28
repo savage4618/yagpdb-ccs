@@ -51,11 +51,12 @@
 {{end}}
         
 {{sendMessage nil (print "Hello " .StrippedMsg ", I'm RandomDadGPDB.")}}
-{{if $changenickname}}
-    {{if lt (len .StrippedMsg) 32}}
-        {{ editNickname .StrippedMsg }}
-    {{else}}
-        {{$string := slice .StrippedMsg 0 31}}
-        {{editNickname $string }}
-    {{end}}
+
+{{if not $changenickname}}
+    {{return}}
 {{end}}
+{{$new := .StrippedMsg}}
+{{if gt (len $new) 32}}
+        {{$new := slice $new 0 31}}
+{{end}}
+{{editNickname $new}}
